@@ -1,5 +1,6 @@
 package chessbook;
 
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.prefs.Preferences;
@@ -24,6 +25,13 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * @author seancarlisle
+ *	The issue i think i had with updating uid was wrong
+ *	all of my code is on the main thread currently
+ *	when i start fetching in the background though...
+ *	that is when i will need to use the runLater to udate the UI.
+ */
 public class ChessBookFX extends Application {
 	
 	private static final String CURRENT_USER = "username";
@@ -118,9 +126,11 @@ public class ChessBookFX extends Application {
 	}
 	
 	private void setGameType(Number cbxIndex){
-		String gameType = viewController.getCbxGameType().getItems().get(cbxIndex.intValue());
-		GamePerformanceStatistics gPS = currentUser.getPerformance().get(gameType);
-		viewController.setGamePerformanceLabels(gPS.getNumberOfGames(), gPS.getScore(), gPS.getRd(), gPS.getProg());
+		if (cbxIndex.intValue() != -1){
+			String gameType = viewController.getCbxGameType().getItems().get(cbxIndex.intValue());
+			GamePerformanceStatistics gPS = currentUser.getPerformance().get(gameType);
+			viewController.setGamePerformanceLabels(gPS.getNumberOfGames(), gPS.getScore(), gPS.getRd(), gPS.getProg());
+		}
 	}
 	private String favoriteGameType(Map<String, GamePerformanceStatistics> stats){
 		String mostGamesPlayedFor = null;
