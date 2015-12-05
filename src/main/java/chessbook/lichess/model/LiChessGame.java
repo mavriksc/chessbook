@@ -2,16 +2,21 @@ package chessbook.lichess.model;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.Map;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OrderColumn;
 
 import com.google.gson.annotations.SerializedName;
-
+@Entity
 public class LiChessGame {
 	//
 	//Stores a game response from 
 	//http://en.lichess.org/api/game?
 	//http://en.lichess.org/api/game/"id"
 	//
+	@Id
 	private String id;
 	@SerializedName("initialFen")
 	private String initialFEN;
@@ -24,9 +29,11 @@ public class LiChessGame {
 	private URL url;
 	private String winner;
 	@SerializedName("fens")
+	@ElementCollection
+	@OrderColumn(name="move_number")
 	private String[] FENS;
-	private Map<String, LiChessGamePlayer> players;
-	private Map<String, String> opening;
+	private Players players;
+	private Opening opening;
 	private String moves;
 	
 	
@@ -98,24 +105,26 @@ public class LiChessGame {
 		FENS = fENS;
 	}
 	
-	public Map<String, String> getOpening() {
-		return opening;
-	}
-	public Map<String, LiChessGamePlayer> getPlayers() {
+	public Players getPlayers() {
 		return players;
 	}
-	public void setPlayers(Map<String, LiChessGamePlayer> players) {
+	public void setPlayers(Players players) {
 		this.players = players;
 	}
-	public void setOpening(Map<String, String> opening) {
-		this.opening = opening;
-	}
+	
 	public String getMoves() {
 		return moves;
 	}
 	public void setMoves(String moves) {
 		this.moves = moves;
 	}
+	public Opening getOpening() {
+		return opening;
+	}
+	public void setOpening(Opening opening) {
+		this.opening = opening;
+	}
+	
 	
 
 }

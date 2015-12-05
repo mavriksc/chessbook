@@ -1,5 +1,8 @@
 package chessbook.lichess.model;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class LiChessGamePlayer {
 	private String userId;
 	private String name;

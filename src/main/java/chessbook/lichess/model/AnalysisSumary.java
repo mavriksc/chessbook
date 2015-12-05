@@ -1,5 +1,8 @@
 package chessbook.lichess.model;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class AnalysisSumary {
 	private int blunder;
 	private int inaccuracy;

@@ -7,8 +7,7 @@ import org.hibernate.criterion.Restrictions;
 
 import chessbook.lichess.model.LiChessUser;
 
-public class UserDao {
-	 SessionFactory sessionFactory;
+public class UserDao extends GenericDao{
 	 
 	 public void save(LiChessUser user) {
 		 if (user.getProfile().getBio().length()>254){
@@ -32,9 +31,6 @@ public class UserDao {
 		 return user;
 	 }
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 	
 
 }

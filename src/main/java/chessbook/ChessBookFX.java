@@ -10,8 +10,11 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import chessbook.dao.GameDao;
 import chessbook.dao.UserDao;
+import chessbook.lichess.model.GameList;
 import chessbook.lichess.model.GamePerformanceStatistics;
+import chessbook.lichess.model.LiChessGame;
 import chessbook.lichess.model.LiChessUser;
 import chessbook.service.LiChessService;
 import chessbook.view.ChessBookViewController;
@@ -47,7 +50,7 @@ public class ChessBookFX extends Application {
 	//DATABASE STUFF
 	//DAOS
 	private static UserDao userDao;
-	
+	private static GameDao gameDao;
 	//HIBERNATE DATA
 	private static SessionFactory sessionFactory;
 	private static ServiceRegistry serviceRegistry;
@@ -63,6 +66,8 @@ public class ChessBookFX extends Application {
 		sessionFactory = createSessionFactory();
 		userDao = new UserDao();
 		userDao.setSessionFactory(sessionFactory);
+		gameDao = new GameDao();
+		gameDao.setSessionFactory(sessionFactory);
 		
 	}
 
@@ -94,9 +99,16 @@ public class ChessBookFX extends Application {
 		viewController.getMnuItSetUser().setOnAction(e-> getUserinfo());
 		viewController.getCbxGameType().getSelectionModel().
 			selectedIndexProperty().addListener((observable, oldValue, newValue) -> setGameType(newValue));
-		
-		
+		viewController.getMnuItLoadGames().setOnAction(e -> loadGames(username));
 		window.show();		
+	}
+	
+	private void loadGames(String uname) {
+		GameList games = new GameList();
+		games = LiChessService.getUsersGames(uname);
+		for(LiChessGame game:games.getList()){
+			gameDao.save(game);
+		}
 	}
 	
 	private void getUserinfo(){
@@ -152,6 +164,7 @@ public class ChessBookFX extends Application {
 	public static SessionFactory createSessionFactory(){
 		Configuration configuration = new Configuration();
 		configuration.addAnnotatedClass(LiChessUser.class);
+		configuration.addAnnotatedClass(LiChessGame.class);
 		configuration.configure();
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
 	            configuration.getProperties()).build();
