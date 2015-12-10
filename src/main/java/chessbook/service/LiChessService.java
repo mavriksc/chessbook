@@ -3,6 +3,7 @@ package chessbook.service;
 
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
@@ -19,6 +20,7 @@ import com.sun.jersey.api.client.WebResource;
 import chessbook.lichess.model.GameList;
 import chessbook.lichess.model.LiChessGame;
 import chessbook.lichess.model.LiChessUser;
+
 
 public class LiChessService {
 	//SERVICE INFO AND ENDPOINTS
@@ -121,6 +123,44 @@ public class LiChessService {
 		Gson g = builder.create();
 		GameList games = g.fromJson(output,GameList.class);
 		return games;
+	}
+	
+	private static GameList getXRatedGamesForUser(String username, Long numberOfGames){
+		Client client = Client.create();
+		WebResource resource = client.resource(URL_BASE + API_GAMES).queryParam(PARAM_USERNAME, username).
+						queryParam(PARAM_PAGE_SIZE, numberOfGames.toString()).
+						queryParam(PARAM_RATED, "1").queryParam(PARAM_WITH_OPENING, "1");
+		ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		String output = response.getEntity(String.class);
+		System.out.println("Output from Server .... \n");
+		System.out.println(output);
+		// Creates the json object which will manage the information received 
+		GsonBuilder builder = new GsonBuilder(); 
+
+		// Register an adapter to manage the date types as long values 
+		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() { 
+			public Date deserialize(JsonElement json, Type arg1, JsonDeserializationContext arg2)
+				throws JsonParseException {
+				return new Date(json.getAsJsonPrimitive().getAsLong());
+		} 
+		});
+		Gson g = builder.create();
+		GameList games = g.fromJson(output,GameList.class);
+		return games;
+		
+	}
+	
+	public static GameList getAllRatedGamesForUser(LiChessUser user){
+		return getXRatedGamesForUser(user.getUsername(), user.numberOfRatedGames());
+	}
+	
+	public static GameList getRecentRatedGamesForUser(LiChessUser user,Long number){
+		
+		return number != null ? getXRatedGamesForUser(user.getUsername(), number):
+			getXRatedGamesForUser(user.getUsername(), 20L);
 	}
 	
 	//TODO get Game

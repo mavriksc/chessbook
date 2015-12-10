@@ -12,5 +12,9 @@ public class GameDao extends GenericDao {
 	 	currentSession.saveOrUpdate(game);
 	    trans.commit();
 	}
-
+	//TODO	count games
+	//TODO	count user games
+	//TODO	count wins of user
+	//TODO	count losses of user
+	//TODO	
 }

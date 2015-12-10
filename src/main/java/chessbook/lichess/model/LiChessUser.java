@@ -86,6 +86,27 @@ public class LiChessUser {
 		this.id = id;
 	}
 	
+	public String favoriteGameType(){
+		
+		String mostGamesPlayedFor = null;
+		Long gamesPlayed = 0L;
+		for(Map.Entry<String, GamePerformanceStatistics> entry : performance.entrySet()){
+			if(entry.getValue().getNumberOfGames() >gamesPlayed){
+				gamesPlayed = entry.getValue().getNumberOfGames();
+				mostGamesPlayedFor = entry.getKey();
+			}
+		}
+		return mostGamesPlayedFor;
+	}
+	
+	public Long numberOfRatedGames(){
+		Long count = new Long(0);
+		for(Map.Entry<String, GamePerformanceStatistics> entry : performance.entrySet()){
+			count+=entry.getValue().getNumberOfGames();
+		}
+		return count;
+	}
+	
 	
 
 }

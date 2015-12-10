@@ -16,6 +16,8 @@ public class ChessBookViewController {
 	@FXML
 	private MenuItem mnuItSetUser;
 	@FXML
+	private MenuItem mnuItInitialLoadOfGames;
+	@FXML
 	private MenuItem mnuItLoadGames;
 	@FXML
 	private Label lblNumGames;
@@ -48,6 +50,9 @@ public class ChessBookViewController {
 	}
 	public MenuItem getMnuItSetUser() {
 		return mnuItSetUser;
+	}
+	public MenuItem getMnuItInitialLoadOfGames() {
+		return mnuItInitialLoadOfGames;
 	}
 	public MenuItem getMnuItLoadGames() {
 		return mnuItLoadGames;
