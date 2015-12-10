@@ -15,19 +15,19 @@ public class UserDao extends GenericDao{
 			 System.out.println("Trimmed bio to 255.");
 		 }
 		 	Session currentSession = sessionFactory.getCurrentSession(); 
-		 	Transaction trans= currentSession.beginTransaction();
+		 	currentSession.beginTransaction();
 		    currentSession.saveOrUpdate(user);
-		    trans.commit();
+		    currentSession.getTransaction().commit();
 		 
 	 }
 	 public LiChessUser getByUsername(String username){
 		 Session currentSession = sessionFactory.getCurrentSession();
-		 Transaction trans= currentSession.beginTransaction();
+		 currentSession.beginTransaction();
 		 LiChessUser user = (LiChessUser) currentSession.createCriteria(LiChessUser.class).
 				 add(Restrictions.eq("username", username)).
 				 uniqueResult();
 		 user.getPerformance();
-		 trans.commit();
+		 currentSession.getTransaction().commit();
 		 return user;
 	 }
 
