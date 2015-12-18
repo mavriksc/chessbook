@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 
 public class ChessBookViewController {
 	@FXML
@@ -27,6 +29,10 @@ public class ChessBookViewController {
 	private Label lblRange;
 	@FXML
 	private Label lblProg;
+	@FXML
+	private TabPane tabPane;
+	@FXML
+	private BorderPane borderPane;
 	
 	public void setGameTypes(Set<String> gameTypes) {
 		cbxGameType.getItems().clear();
@@ -69,6 +75,18 @@ public class ChessBookViewController {
 	}
 	public Label getLblProg() {
 		return lblProg;
+	}
+	public TabPane getTabPane() {
+		return tabPane;
+	}
+	public void setTabPane(TabPane tabPane) {
+		this.tabPane = tabPane;
+	}
+	public BorderPane getBorderPane() {
+		return borderPane;
+	}
+	public void setBorderPane(BorderPane borderPane) {
+		this.borderPane = borderPane;
 	}
 	
 	
