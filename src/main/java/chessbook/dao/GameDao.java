@@ -1,7 +1,8 @@
 package chessbook.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -35,11 +36,41 @@ public class GameDao extends GenericDao {
 		currentSession.getTransaction().commit();
 		return answer;
 	}
-	//TODO MAYBE count stats for user. 
-	//		counts all games, wins losses, draws, white wins/losses/draws, black wins/losses/draws 
-	//TODO	count wins of user
-	//TODO	count losses of user
-	//TODO 
-	//TODO	
+	
+	@SuppressWarnings("unchecked")
+	public List<LiChessGame> gamesForUser(String username){
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.beginTransaction();
+		List<LiChessGame> games =  currentSession.createCriteria(LiChessGame.class)
+						.add(Restrictions.or(Restrictions.eq("players.white.userId", username), 
+						Restrictions.eq("players.black.userId",username))).list();
+		currentSession.getTransaction().commit();
+		return games;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LiChessGame> gamesForUser(String username,String variant){
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.beginTransaction();
+		List<LiChessGame> games =  currentSession.createCriteria(LiChessGame.class)
+						.add(Restrictions.or(Restrictions.eq("players.white.userId", username), 
+						Restrictions.eq("players.black.userId",username))).add(Restrictions.eq("variant", variant)).list();
+		currentSession.getTransaction().commit();
+		return games;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LiChessGame> gamesForUser(String username,String variant,String speed){
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.beginTransaction();
+		List<LiChessGame> games =  currentSession.createCriteria(LiChessGame.class)
+						.add(Restrictions.or(Restrictions.eq("players.white.userId", username), 
+						Restrictions.eq("players.black.userId",username))).add(Restrictions.eq("variant", variant))
+						.add(Restrictions.eq("speed", speed)).list();
+		currentSession.getTransaction().commit();
+		return games;
+	}
+	
+
 }
 

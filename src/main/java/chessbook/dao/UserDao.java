@@ -1,8 +1,6 @@
 package chessbook.dao;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import chessbook.lichess.model.LiChessUser;

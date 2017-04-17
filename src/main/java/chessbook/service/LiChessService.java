@@ -3,7 +3,6 @@ package chessbook.service;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 

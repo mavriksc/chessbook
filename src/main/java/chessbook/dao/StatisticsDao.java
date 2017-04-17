@@ -1,6 +1,5 @@
 package chessbook.dao;
 
-import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;

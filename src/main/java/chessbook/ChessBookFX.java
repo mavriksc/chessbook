@@ -2,8 +2,6 @@ package chessbook;
 
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -244,6 +241,10 @@ public class ChessBookFX extends Application {
 			statsMap.put(speed, stats);
 		}
 		return statsMap;
+	}
+	
+	private void openingStatistics(){
+		
 	}
 	
 	private void initView(Stage window) throws Exception{
